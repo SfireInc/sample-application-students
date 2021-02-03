@@ -1,6 +1,11 @@
 git:
   depth: 5
 
+addons:
+  sonarcloud:
+    organization: "sfireinc"
+    token: "$SONARCLOUD_TOKEN"
+
 stages:
   - "Build and Test"
   - "Package"
@@ -13,12 +18,14 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - mvn clean verify
+    - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=SfireInc_sample-application-students
+
   - stage: "Build and Test"
     language: node_js
     node_js: "12.20"
     before_script:
     - cd sample-application-frontend
+
   - stage: "Package"
     before_script:
     - cd sample-application-backend
@@ -26,6 +33,7 @@ jobs:
     - docker build -t sfireinc/devops:backend .
     - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
     - docker push sfireinc/devops:backend
+    
   - stage: "Package"
     before_script:
     - cd sample-application-frontend
