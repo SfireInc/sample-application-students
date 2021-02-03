@@ -23,14 +23,14 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - docker build .
+    - docker build -t backend .
     - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
     - docker push sfireinc/devops:backend
   - stage: "Package"
     before_script:
     - cd sample-application-frontend
     script:
-    - docker build .
+    - docker build -t frontend .
     - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
     - docker push sfireinc/devops:frontend
 
