@@ -18,7 +18,18 @@ jobs:
     before_script:
     - cd sample-application-backend
     script:
-    - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=SfireInc_sample-application-students
+    - mvn clean
+    - mvn verify
+
+  - stage: "Quality Gate [Sonar Cloud]"
+    language: java
+    jdk: oraclejdk11
+    before_script:
+    - cd sample-application-backend
+    script:
+    - mvn test
+    - mvn org.jacoco:jacoco-maven-plugin:prepare-agent 
+    - mvn sonar:sonar -Dsonar.projectKey=SfireInc_sample-application-students
 
   - stage: "Build and Test"
     language: node_js
@@ -26,7 +37,7 @@ jobs:
     before_script:
     - cd sample-application-frontend
 
-  - stage: "Package"
+  - stage: "Build Push BackEnd docker image"
     before_script:
     - cd sample-application-backend
     script:
@@ -34,7 +45,7 @@ jobs:
     - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
     - docker push sfireinc/devops:backend
     
-  - stage: "Package"
+  - stage: "Build Push FrontEnd docker image"
     before_script:
     - cd sample-application-frontend
     script:
