@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-public class StudentsServiceTest {
+class StudentsServiceTest {
 
     @InjectMocks
     private StudentService studentService;
@@ -42,59 +42,59 @@ public class StudentsServiceTest {
 
 
     @Test
-    public void testGetStudentById() {
+    void testGetStudentById() {
         when(studentDAO.getById(1L)).thenReturn(student);
         assertEquals(student, studentService.getStudentById(1L));
     }
 
     @Test
-    public void testGetStudentByIdWithNegativeId() {
+    void testGetStudentByIdWithNegativeId() {
         assertThrows(IllegalArgumentException.class, () -> studentService.getStudentById(-5));
     }
 
     @Test
-    public void testGetStudentsByDepartmentName() {
+    void testGetStudentsByDepartmentName() {
         List<Student> students = new ArrayList<>();
         students.add(student);
-        when(studentDAO.findStudentsByDepartment_Name("DepartmentTest")).thenReturn(students);
+        when(studentDAO.findStudentsByDepartmentName("DepartmentTest")).thenReturn(students);
 
         assertEquals(students, studentService.getStudentsByDepartmentName("DepartmentTest"));
     }
 
     @Test
-    public void testGetStudentsByDepartmentNameWithNullValue() {
+    void testGetStudentsByDepartmentNameWithNullValue() {
         assertThrows(IllegalArgumentException.class, () -> studentService.getStudentsByDepartmentName(null));
     }
 
     @Test
-    public void testGetStudentsByDepartmentNameWithEmptyValue() {
+    void testGetStudentsByDepartmentNameWithEmptyValue() {
         assertThrows(IllegalArgumentException.class, () -> studentService.getStudentsByDepartmentName(""));
     }
 
     @Test
-    public void testGetStudentsNumberByDepartmentName() {
+    void testGetStudentsNumberByDepartmentName() {
         when(studentDAO.countAllByDepartment_Name("DepartmentTest")).thenReturn(1);
         assertEquals(1, studentService.getStudentsNumberByDepartmentName("DepartmentTest"));
     }
 
     @Test
-    public void testGetStudentsNumberByDepartmentNameWithNullValue() {
+    void testGetStudentsNumberByDepartmentNameWithNullValue() {
         assertThrows(IllegalArgumentException.class, () -> studentService.getStudentsNumberByDepartmentName(null));
     }
 
     @Test
-    public void testGetStudentsNumberByDepartmentNameWithEmptyValue() {
+    void testGetStudentsNumberByDepartmentNameWithEmptyValue() {
         assertThrows(IllegalArgumentException.class, () -> studentService.getStudentsNumberByDepartmentName(null));
     }
 
     @Test
-    public void testAddStudent() {
+    void testAddStudent() {
         when(studentDAO.save(student)).thenReturn(student);
         assertEquals(student, studentService.addStudent(student));
     }
 
     @Test
-    public void testAddStudentWithBadLastname() {
+    void testAddStudentWithBadLastname() {
         Student studentWithNullLastname = Student.builder().id(1L).firstname("abc").department(department).build();
         assertThrows(IllegalArgumentException.class, () -> studentService.addStudent(studentWithNullLastname));
 
@@ -103,18 +103,18 @@ public class StudentsServiceTest {
     }
 
     @Test
-    public void testAddStudentWithoutDepartment() {
+    void testAddStudentWithoutDepartment() {
         Student studentWithoutDepartment = Student.builder().id(1L).lastname("abc").build();
         assertThrows(IllegalArgumentException.class, () -> studentService.addStudent(studentWithoutDepartment));
     }
 
     @Test
-    public void testRemoveStudentById() {
+    void testRemoveStudentById() {
         assertDoesNotThrow(() -> studentService.removeStudentById(1L));
     }
 
     @Test
-    public void testRemoveStudentWithNegativeId() {
+    void testRemoveStudentWithNegativeId() {
         assertThrows(IllegalArgumentException.class, () -> studentService.removeStudentById(-5));
     }
 }

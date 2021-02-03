@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-public class DepartmentsServiceTest {
+class DepartmentsServiceTest {
 
     @InjectMocks
     private DepartmentService departmentService;
@@ -29,18 +29,18 @@ public class DepartmentsServiceTest {
     }
 
     @Test
-    public void testGetDepartmentByName() {
+    void testGetDepartmentByName() {
         when(departmentDAO.getDepartmentByName("DepartmentTest")).thenReturn(department);
         assertEquals(department, departmentDAO.getDepartmentByName("DepartmentTest"));
     }
 
     @Test
-    public void testGetDepartmentByNameWithNullValue() {
+    void testGetDepartmentByNameWithNullValue() {
         assertThrows(IllegalArgumentException.class, () -> departmentService.getByName(null));
     }
 
     @Test
-    public void testGetDepartmentByNameWithEmptyValue() {
+    void testGetDepartmentByNameWithEmptyValue() {
         assertThrows(IllegalArgumentException.class, () -> departmentService.getByName(""));
     }
 }

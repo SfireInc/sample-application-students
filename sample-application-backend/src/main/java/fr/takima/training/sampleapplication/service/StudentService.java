@@ -18,7 +18,7 @@ public class StudentService {
 
     public List<Student> getStudentsByDepartmentName(String departmentName) {
         validateDepartmentName(departmentName);
-        return studentDAO.findStudentsByDepartment_Name(departmentName);
+        return studentDAO.findStudentsByDepartmentName(departmentName);
     }
 
     public int getStudentsNumberByDepartmentName(String departmentName) {

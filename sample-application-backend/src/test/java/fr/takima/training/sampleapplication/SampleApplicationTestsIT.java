@@ -11,6 +11,7 @@ public class SampleApplicationTestsIT {
 
 	@Test
 	public void contextLoads() {
+		assert true;
 	}
 
 }
