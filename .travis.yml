@@ -1,20 +1,43 @@
 git:
   depth: 5
 
+stages:
+  - "Build and Test"
+  - "Package"
+
 jobs:
   include:
-  - stage: "Build and Test Java"
+  - stage: "Build and Test"
     language: java
     jdk: oraclejdk11
     before_script:
     - cd sample-application-backend
-  - stage: "Build and Test Nodejs"
-    language: node.js
+    script:
+    - mvn clean verify
+  - stage: "Build and Test"
+    language: node_js
     node_js: "12.20"
     before_script:
     - cd sample-application-frontend
+  - stage: "Package"
+    before_script:
+    - cd sample-application-backend
+    script:
+    - docker build .
+    - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
+    - docker push sfireinc/devops:backend
+  - stage: "Package"
+    before_script:
+    - cd sample-application-frontend
+    script:
+    - docker build .
+    - docker login -p $DOCKER_PASSWORD -u $DOCKER_USER
+    - docker push sfireinc/devops:frontend
 
 cache:
   directories:
   - "$HOME/.m2/repository"
   - "$HOME/.npm"
+
+services:
+- docker
